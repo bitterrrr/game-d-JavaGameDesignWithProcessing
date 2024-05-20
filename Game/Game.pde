@@ -1,6 +1,6 @@
 /* Game Class Starter File
- * Authors: Joel A. Bianchi
- * Last Edit: 5/13/2024
+ * Authors: David A & Christian Coman
+ * Last Edit: 5/20/2024
  */
 
 //import processing.sound.*;
@@ -65,7 +65,7 @@ void setup() {
 
   //setup the screens/worlds/grids in the Game
   splashScreen = new Screen("splash", splashBg);
-  mainGrid = new Grid("chessBoard", mainBg, 6, 8);
+  mainGrid = new Grid("chessboard", mainBg, 6, 8);
   endScreen = new World("end", endBg);
   currentScreen = splashScreen;
 
