@@ -22,7 +22,7 @@ PImage splashBg;
 
 //Sky Screen Variables
 Grid mainGrid;
-String mainBgFile = "images/chess.jpg";
+String mainBgFile = "images/TheAvocado.png";
 PImage mainBg;
 
 PImage player1;
@@ -65,7 +65,7 @@ void setup() {
 
   //setup the screens/worlds/grids in the Game
   splashScreen = new Screen("splash", splashBg);
-  mainGrid = new Grid("chessboard", mainBg, 6, 8);
+  mainGrid = new Grid("avocado", mainBg, 6, 8);
   endScreen = new World("end", endBg);
   currentScreen = splashScreen;
 
