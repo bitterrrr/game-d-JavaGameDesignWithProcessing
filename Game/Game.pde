@@ -24,11 +24,11 @@ PImage splashBg;
 
 //Level1 Screen Variables
 Grid mainGrid;
-String mainBgFile = "images/TheAvocado.png";
+String mainBgFile = "images/skyViewImage.jpg";
 PImage mainBg;
 
 PImage player1;
-String player1File = "images/x_wood.png";
+String player1File = "images/robot_placeholder.png";
 int player1Row = 3;
 int health = 3;
 
@@ -68,7 +68,7 @@ void setup() {
 
   //setup the screens/worlds/grids in the Game
   splashScreen = new Screen("splash", splashBg);
-  mainGrid = new Grid("avocado", mainBg, 6, 8);
+  mainGrid = new Grid("sky", mainBg, 6, 8);
   endScreen = new World("end", endBg);
   currentScreen = splashScreen;
 
