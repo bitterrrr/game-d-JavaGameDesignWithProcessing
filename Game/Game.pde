@@ -30,6 +30,7 @@ PImage mainBg;
 PImage player1;
 String player1File = "images/robot_placeholder.png";
 int player1Row = 3;
+//int player1Col = 0; Testing for full movement
 int health = 3;
 
 /* Testing for enemy placement */
@@ -150,6 +151,31 @@ void keyPressed(){
     //change the field for player1Row
     player1Row--;
   }
+
+  /* Testing for full movement
+  //Down movement [s]
+  if(keyCode == 115) {
+    GridLocation oldLoc = new GridLocation(player1Row, player1Col);
+
+    //Erase image from previous location
+    
+
+    //change the field for player1Row
+    player1Row++;
+  }
+  //Left Movement [a]
+  if(keyCode == 97) {
+    GridLocation oldLoc = new GridLocation(player1Row, player1Col);
+
+    player1Col--;
+  }
+  //Right Movement [d]
+  if(keyCode == 100) {
+    GridLocation oldLoc = new GridLocation(player1Row, player1Col);
+
+    player1Col++;
+  }
+  */
 
 
 }
