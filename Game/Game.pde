@@ -32,6 +32,12 @@ String player1File = "images/robot_placeholder.png";
 int player1Row = 3;
 int health = 3;
 
+/* Testing for enemy placement */
+PImage ship1;
+String ship1File = "images/ship_placeholder.png";
+int ship1Row = 3;
+
+
 PImage enemy;
 AnimatedSprite enemySprite;
 
@@ -75,6 +81,9 @@ void setup() {
   //setup the sprites  
   player1 = loadImage(player1File);
   player1.resize(mainGrid.getTileWidthPixels(),mainGrid.getTileHeightPixels());
+
+  ship1 = loadImage(ship1File);
+  ship1.resize(mainGrid.getTileWidthPixels(),mainGrid.getTileHeightPixels());
   // enemy = loadImage("images/articuno.png");
   // enemy.resize(100,100);
   exampleAnimationSetup();
@@ -203,6 +212,10 @@ public void updateScreen(){
     //Display the Player1 image
     GridLocation player1Loc = new GridLocation(player1Row,0);
     mainGrid.setTileImage(player1Loc, player1);
+
+    //Display the ship
+    GridLocation ship1Loc = new GridLocation(ship1Row,3);
+    mainGrid.setTileImage(ship1Loc,ship1);
       
     //update other screen elements
     mainGrid.showSprites();
