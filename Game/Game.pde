@@ -163,16 +163,21 @@ void keyPressed(){
   if(currentScreen == level1Grid){
 
     //set [W] key to move the player1 up & avoid Out-of-Bounds errors
-    if(keyCode == 87){
+    if(keyCode == 87 && player1Row != 0){
     
       //Store old GridLocation
       GridLocation oldLoc = new GridLocation(player1Row, player1Col);
 
       //Erase image from previous location
-      
+      level1Grid.clearTileImage(oldLoc);
 
       //change the field for player1Row
       player1Row--;
+    }
+    else if(keyCode == 83 && player1Row != 5){
+      GridLocation oldLoc = new GridLocation(player1Row, player1Col);
+      level1Grid.clearTileImage(oldLoc);
+      player1Row++;
     }
 
 
@@ -323,6 +328,17 @@ public void moveSprites(){
 
 //Loop through all of the rows & cols in the grid
 
+// if(int r=0; r<level1Grid.getNumRows(); r++){
+//   for(int c=0; c<level1Grid.getNumCols(); c++){
+//     GridLocation loc = new GridLocation(r,c);
+
+//     if(level1Grid.getTileImage(loc) == enemy){
+
+//       level1Grid.cleartTileImage(loc)
+
+//     }
+//   }
+// }
       //Store the current GridLocation
 
       //Store the next GridLocation
