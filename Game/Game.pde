@@ -33,7 +33,7 @@ int health = 3;
 /* Testing for enemy placement */
 PImage ship1;
 String ship1File = "images/ship_placeholder.png";
-int ship1Row = 3;
+
 
 AnimatedSprite enemySprite;
 
@@ -274,9 +274,7 @@ public void updateScreen(){
     GridLocation player1Loc = new GridLocation(player1Row,0);
     level1Grid.setTileImage(player1Loc, player1);
 
-    //Display the ship
-    GridLocation ship1Loc = new GridLocation(ship1Row,3);
-    level1Grid.setTileImage(ship1Loc,ship1);
+
       
     //update other screen elements
     level1Grid.showSprites();
@@ -306,7 +304,9 @@ public void updateScreen(){
 public void populateSprites(){
 
   //What is the index for the last column?
-  
+      //Display the ship
+    GridLocation ship1Loc = new GridLocation(ship1Row,3);
+    level1Grid.setTileImage(ship1Loc,ship1);
 
   //Loop through all the rows in the last column
 
@@ -322,6 +322,21 @@ public void populateSprites(){
 public void moveSprites(){
 
 //Loop through all of the rows & cols in the grid
+
+for(int r = 0; r < level1Grid.getNumRows();r++) {
+  for(int c = 1; c < level1Grid.getNumCols();c++){
+    GridLocation loc = new GridLocation(r,c);
+
+
+
+    if (level1Grid.getTileImage(loc) == ship1) {
+      level1Grid.clearTileImage(loc);
+
+      GridLocation leftLoc = new GridLocation(r,c-1);
+      level1Grid.setTileImage(leftLoc,ship1);
+    }
+  }
+}
 
       //Store the current GridLocation
 
