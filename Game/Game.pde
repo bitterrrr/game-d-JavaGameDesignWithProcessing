@@ -36,7 +36,7 @@ int health = 3;
 PImage ship1;
 String ship1File = "images/ship_placeholder.png";
 int ship1Row = 3;
-int ship1Col = 6; //Testing for full movement
+int ship1Col = 7; //Testing for full movement
 AnimatedSprite walkingChick;
 Button b1 = new Button("rect", 650, 525, 100, 50, "GoToLevel2");
 
@@ -347,13 +347,15 @@ public void moveSprites(){
 
 for(int r = 0; r < level1Grid.getNumRows();r++) {
   for(int c = 1; c < level1Grid.getNumCols();c++){
+    int ran = (int) Math.random()*6;
     GridLocation loc = new GridLocation(r,c);
+    GridLocation leftLoc = new GridLocation(ran,c-1);
 
     if (level1Grid.getTileImage(loc) == ship1) {
       level1Grid.clearTileImage(loc);
 
-      GridLocation leftLoc = new GridLocation(r,c-1);
       level1Grid.setTileImage(leftLoc,ship1);
+      ran = (int) Math.random()*6;
     }
   }
 }
