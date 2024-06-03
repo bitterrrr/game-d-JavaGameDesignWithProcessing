@@ -178,6 +178,16 @@ void keyPressed(){
       level1Grid.clearTileImage(oldLoc);
       player1Row++;
     }
+    // else if (keyCode == 68) {
+    //   GridLocation oldLoc = new GridLocation(player1Row, player1Col);
+    //   level1Grid.clearTileImage(oldLoc);
+    //   player1Col++;
+    // }
+    // else if (keyCode == 65) {
+    //   GridLocation oldLoc = new GridLocation(player1Row, player1Col);
+    //   level1Grid.clearTileImage(oldLoc);
+    //   player1Col--;
+    // }
 
 
 
