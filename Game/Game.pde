@@ -8,7 +8,7 @@
 //------------------ GAME VARIABLES --------------------//
 
 //VARIABLES: Title Bar
-String titleText = "HorseChess";
+String titleText = "Robots&Ships";
 String extraText = "Who's Turn?";
 
 //VARIABLES: Whole Game
@@ -37,7 +37,7 @@ PImage ship1;
 String ship1File = "images/ship_placeholder.png";
 int ship1Row = 3;
 int ship1Col = 7; //Testing for full movement
-AnimatedSprite walkingChick;
+//AnimatedSprite walkingChick;
 Button b1 = new Button("rect", 650, 525, 100, 50, "GoToLevel2");
 
 //VARIABLES: Level2World Pixel-based Screen
@@ -102,8 +102,8 @@ void setup() {
   player1.resize(level1Grid.getTileWidth(),level1Grid.getTileHeight());
   ship1 = loadImage(ship1File);
   ship1.resize(level1Grid.getTileWidth(),level1Grid.getTileHeight());
-  walkingChick = new AnimatedSprite("sprites/chick_walk.png", "sprites/chick_walk.json", 0.0, 0.0, 5.0);
-  level1Grid.setTileSprite(new GridLocation (5,5), walkingChick);
+  //walkingChick = new AnimatedSprite("sprites/chick_walk.png", "sprites/chick_walk.json", 0.0, 0.0, 5.0);
+  //level1Grid.setTileSprite(new GridLocation (5,5), walkingChick);
 
  System.out.println("Done loading Level 1 ...");
   
@@ -297,10 +297,10 @@ public void updateScreen(){
 
     //move to next level based on a button click
     b1.show();
-    if(b1.isClicked()){
-      System.out.println("\nButton Clicked");
-      currentScreen = level2World;
-    }
+    // if(b1.isClicked()){
+    //   System.out.println("\nButton Clicked");
+    //   currentScreen = level2World;
+    // }
   
   }
   
@@ -354,18 +354,17 @@ public void populateSprites(){
 public void moveSprites(){
 
 //Loop through all of the rows & cols in the grid
-
 for(int r = 0; r < level1Grid.getNumRows();r++) {
   for(int c = 1; c < level1Grid.getNumCols();c++){
-    int ran = (int) Math.random()*6;
+    //int ran = (int) Math.random()*6;
     GridLocation loc = new GridLocation(r,c);
-    GridLocation leftLoc = new GridLocation(ran,c-1);
+    GridLocation leftLoc = new GridLocation((int)Math.random()*6,c-1);
 
     if (level1Grid.getTileImage(loc) == ship1) {
       level1Grid.clearTileImage(loc);
 
       level1Grid.setTileImage(leftLoc,ship1);
-      ran = (int) Math.random()*6;
+      //ran = (int) Math.random()*6;
     }
   }
 }
