@@ -168,26 +168,26 @@ void keyPressed(){
       GridLocation playerLoc = new GridLocation(player1Row, player1Col);
       
       //Erase image from previous location
-      level1Grid.clearTileImage(oldLoc);
+      level1Grid.clearTileImage(playerLoc);
 
       //store a GridLocation for UP
       GridLocation enemyLoc = new GridLocation(ship1Row--,ship1Col);
 
       //check the tile UP to see if a ship is there
-      PImage above = level1Grid.getTileImage(enemyLoc)
-      if(above == ship1){
+      PImage above = level1Grid.getTileImage(enemyLoc);
+      if(ship1.equals(above)){
         health--;
       }
 
       //change the field for player1Row
       player1Row--;
-      checkCollision(playerLoc, ship1);
+      checkCollision(playerLoc, enemyLoc);
     }
     else if(keyCode == 83 && player1Row != 5){
       GridLocation oldLoc = new GridLocation(player1Row, player1Col);
       level1Grid.clearTileImage(oldLoc);
       player1Row++;
-      checkCollision(oldLoc, ship1);
+      //checkCollision(oldLoc, ship1);
     }
     // else if (keyCode == 68) {
     //   GridLocation oldLoc = new GridLocation(player1Row, player1Col);
@@ -371,7 +371,7 @@ for(int r = 0; r < level1Grid.getNumRows();r++) {
     GridLocation loc = new GridLocation(r,c);
     GridLocation leftLoc = new GridLocation((int)Math.random()*6,c-1);
 
-    if (level1Grid.getTileImage(loc) == ship1) {
+    if (ship1.equals(level1Grid.getTileImage(loc))) {
       level1Grid.clearTileImage(loc);
 
       level1Grid.setTileImage(leftLoc,ship1);
@@ -409,17 +409,17 @@ for(int r = 0; r < level1Grid.getNumRows();r++) {
 public boolean checkCollision(GridLocation loc, GridLocation nextLoc){
 
   //Check what image/sprite is stored in the CURRENT location
-  PImage image = grid.getTileImage(loc);
+  PImage image = level1Grid.getTileImage(loc);
   // AnimatedSprite sprite = grid.getTileSprite(loc);
-  float distance = dist(loc.getGridLocation(), nextLoc.getGridLocation());
-  if(distance == 0) {
-    level1Grid.clearTileImage(nextLoc);
-  health = 0;
-  return true;
-  }
-  else{
-    return false;
-  }
+  // float distance = dist(loc.getGridLocation(), nextLoc.getGridLocation());
+  // if(distance == 0) {
+  //   level1Grid.clearTileImage(nextLoc);
+  // health = 0;
+  // return true;
+  // }
+  // else{
+  //   return false;
+  // }
   //if empty --> no collision
 
   //Check what image/sprite is stored in the NEXT location
@@ -434,14 +434,14 @@ public boolean checkCollision(GridLocation loc, GridLocation nextLoc){
 
   //check if a player collides into enemy
 
-  // return false; //<--default return
+  return false; //<--default return
 }
 
 //method to indicate when the main game is over
 public boolean isGameOver(){
-  if(lives == 0){
-    return true;
-  }
+  // if(lives == 0){
+  //   return true;
+  // }
   return false; //by default, the game is never over
 }
 
