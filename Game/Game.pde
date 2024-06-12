@@ -364,11 +364,11 @@ public void populateSprites(){
   //Loop through all the rows in the last column
   for (int r = 0; r < level1Grid.getNumRows(); r++) {
 
-    GridLocation ship1Loc = new GridLocation(r,level1Grid.getNumCols()-1) ;
+    GridLocation shipPlace = new GridLocation(r,level1Grid.getNumCols()-1) ;
 
 
     if(Math.random() < 0.2) {
-      level1Grid.setTileImage(ship1Loc,ship1);
+      level1Grid.setTileImage(shipPlace,ship1);
     }
   }
 
