@@ -12,7 +12,7 @@ String titleText = "Robots&Ships";
 String extraText = "Who's Turn?";
 
 //VARIABLES: Whole Game
-//AnimatedSprite runningHorse;
+AnimatedSprite runningHorse;
 boolean doAnimation;
 
 //VARIABLES: Splash Screen
@@ -41,7 +41,7 @@ String ship1File = "images/ship_placeholder.png";
 int ship1Row = 3;
 int ship1Col = 7; //Testing for full movement
 //AnimatedSprite walkingChick;
-// Button b1 = new Button("rect", 650, 525, 100, 50, "GoToLevel2");
+Button b1 = new Button("rect", 650, 525, 100, 50, "GoToLevel2");
 
 //VARIABLES: Level2World Pixel-based Screen
 World level2World;
@@ -98,7 +98,7 @@ void setup() {
   currentScreen = splashScreen;
 
   //SETUP: All Game objects
-  //runningHorse = new AnimatedSprite("sprites/horse_run.png", "sprites/horse_run.json", 50.0, 75.0, 10.0);
+  runningHorse = new AnimatedSprite("sprites/horse_run.png", "sprites/horse_run.json", 50.0, 75.0, 10.0);
 
   //SETUP: Level 1
   player1 = loadImage(player1File);
@@ -113,7 +113,7 @@ void setup() {
   //SETUP: Level 2
   player2 = new Sprite(player2File, 0.25);
   //player2.moveTo(player2startX, player2startY);
-  //level2World.addSpriteCopyTo(runningHorse, 100, 200);  //example Sprite added to a World at a location, with a speed
+  level2World.addSpriteCopyTo(runningHorse, 100, 200);  //example Sprite added to a World at a location, with a speed
   level2World.printWorldSprites();
   System.out.println("Done loading Level 2 ...");
   
@@ -168,26 +168,23 @@ void keyPressed(){
     if(keyCode == 87 && player1Row != 0){
     
       //Store old GridLocation
-      GridLocation oldLoc = new GridLocation(player1Row, player1Col);
-      //GridLocation playerLoc = new GridLocation(player1Row, player1Col);
+      GridLocation playerLoc = new GridLocation(player1Row, player1Col);
       
       //Erase image from previous location
-      level1Grid.clearTileImage(oldLoc);
+      level1Grid.clearTileImage(playerLoc);
 
       //store a GridLocation for UP
-      //GridLocation enemyLoc = new GridLocation(ship1Row--,ship1Col);
+      GridLocation enemyLoc = new GridLocation(ship1Row--,ship1Col);
 
       //check the tile UP to see if a ship is there
-      /*
-      PImage above = level1Grid.getTileImage(enemyLoc)
-      if(above == ship1){
+      PImage above = level1Grid.getTileImage(enemyLoc);
+      if(ship1.equals(above)){
         health--;
       }
-      */
 
       //change the field for player1Row
       player1Row--;
-      //checkCollision(playerLoc, ship1);
+      checkCollision(playerLoc, enemyLoc);
     }
     else if(keyCode == 83 && player1Row != 5){
       GridLocation oldLoc = new GridLocation(player1Row, player1Col);
@@ -320,8 +317,8 @@ public void updateScreen(){
     level1Grid.showWorldSprites();
 
     //move to next level based on a button click
-    // b1.show();
-    // if(b1.isClicked()){
+    //b1.show();
+    //if(b1.isClicked()){
     //   System.out.println("\nButton Clicked");
     //   currentScreen = level2World;
     // }
@@ -350,7 +347,7 @@ public void updateScreen(){
 
   //UPDATE: Any Screen
   if(doAnimation){
-    //runningHorse.animateHorizontal(5.0, 10.0, true);
+    runningHorse.animateHorizontal(5.0, 10.0, true);
   }
 
 
@@ -361,28 +358,20 @@ public void populateSprites(){
 
   //What is the index for the last column?
       //Display the ship
-
+    GridLocation ship1Loc = new GridLocation(ship1Row,ship1Col);
+    level1Grid.setTileImage(ship1Loc,ship1);
 
   //Loop through all the rows in the last column
   for (int r = 0; r < level1Grid.getNumRows(); r++) {
 
     GridLocation ship1Loc = new GridLocation(r,level1Grid.getNumCols()-1) ;
-    GridLocation firstCol = new GridLocation(r,0);
 
 
-    if(Math.random() < 0.1) {
+    if(Math.random() < 0.2) {
       level1Grid.setTileImage(ship1Loc,ship1);
     }
-    
   }
-  
-  /*
-  //Blaster Movement
-  for(int c = 1; c < level1Grid.getNumCols(); c++) {
-    GridLocation blasterLoc = new GridLocation(player1Row, c);
-    level1Grid.clearTileImage()
-  }
-*/
+
     //Generate a random number
 
 
@@ -397,13 +386,26 @@ public void moveSprites(){
 //Loop through all of the rows & cols in the grid
 for(int r = 0; r < level1Grid.getNumRows();r++) {
   for(int c = 1; c < level1Grid.getNumCols();c++){
+    //int ran = (int) Math.random()*6;
     GridLocation loc = new GridLocation(r,c);
-    GridLocation leftLoc = new GridLocation(r,c-1);
+    GridLocation leftLoc = new GridLocation((int)Math.random()*6,c-1);
 
-    if (level1Grid.getTileImage(loc) == ship1) {
+    if (ship1.equals(level1Grid.getTileImage(loc))) {
       level1Grid.clearTileImage(loc);
 
+      if(player1.equals(level1Grid.getTileImage(leftLoc))){
+        health--;
+
+      }
+      // else if(blaster.equals(level1Grid.getTileImage(leftLoc))){
+      //   level1Grid.clearTileImage(loc)
+
+      // }
+      else{
       level1Grid.setTileImage(leftLoc,ship1);
+      }
+
+      //ran = (int) Math.random()*6;
     }
   }
 }
@@ -437,7 +439,7 @@ for(int r = 0; r < level1Grid.getNumRows();r++) {
 public boolean checkCollision(GridLocation loc, GridLocation nextLoc){
 
   //Check what image/sprite is stored in the CURRENT location
-  //PImage image = grid.getTileImage(loc);
+  PImage image = level1Grid.getTileImage(loc);
   // AnimatedSprite sprite = grid.getTileSprite(loc);
   // float distance = dist(loc.getGridLocation(), nextLoc.getGridLocation());
   // if(distance == 0) {
@@ -451,9 +453,9 @@ public boolean checkCollision(GridLocation loc, GridLocation nextLoc){
   //if empty --> no collision
 
   //Check what image/sprite is stored in the NEXT location
-  
+  // getGridLocation(nextLoc)
   //if empty --> no collision
-
+  // if()
   //check if enemy runs into player
 
     //clear out the enemy if it hits the player (using cleartTileImage() or clearTileSprite() from Grid class)
@@ -467,9 +469,9 @@ public boolean checkCollision(GridLocation loc, GridLocation nextLoc){
 
 //method to indicate when the main game is over
 public boolean isGameOver(){
-  if(health == 0){
-    return true;
-  }
+  // if(lives == 0){
+  //   return true;
+  // }
   return false; //by default, the game is never over
 }
 
