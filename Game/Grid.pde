@@ -181,7 +181,7 @@ public class Grid extends World{
   public void setTileImage(GridLocation loc, PImage pi){
     GridTile tile = getTile(loc);
     tile.setImage(pi);
-    showTileImage(loc);
+    //showTileImage(loc);
   }
 
   //Method that returns the PImage associated with a particular Tile

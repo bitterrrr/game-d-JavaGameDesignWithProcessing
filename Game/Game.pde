@@ -41,7 +41,7 @@ String ship1File = "images/ship_placeholder.png";
 int ship1Row = 3;
 int ship1Col = 7; //Testing for full movement
 //AnimatedSprite walkingChick;
-Button b1 = new Button("rect", 650, 525, 100, 50, "GoToLevel2");
+// Button b1 = new Button("rect", 650, 525, 100, 50, "GoToLevel2");
 
 //VARIABLES: Level2World Pixel-based Screen
 World level2World;
@@ -319,11 +319,11 @@ public void updateScreen(){
     level1Grid.showWorldSprites();
 
     //move to next level based on a button click
-    b1.show();
-    if(b1.isClicked()){
-      System.out.println("\nButton Clicked");
-      currentScreen = level2World;
-    }
+    // b1.show();
+    // if(b1.isClicked()){
+    //   System.out.println("\nButton Clicked");
+    //   currentScreen = level2World;
+    // }
   
   }
   
