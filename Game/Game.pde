@@ -33,7 +33,7 @@ int player1Col = 0; //Testing for full movement
 int health = 3;
 
 PImage blaster;
-String blaster1File = "images/blaster.png";
+String blasterFile = "images/blaster.png";
 
 /* Testing for enemy placement */
 PImage ship1;
@@ -197,7 +197,8 @@ void keyPressed(){
     }
 
     //blaster
-    else if(keyCode == 112) {
+    if(keyCode == 80) {
+      blaster = loadImage(blasterFile);
       GridLocation b = new GridLocation(player1Row,1);
       level1Grid.setTileImage(b,blaster);
     }
