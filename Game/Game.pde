@@ -32,6 +32,9 @@ int player1Row = 3;
 int player1Col = 0; //Testing for full movement
 int health = 3;
 
+PImage blaster;
+String blaster1File = "images/blaster.png";
+
 /* Testing for enemy placement */
 PImage ship1;
 String ship1File = "images/ship_placeholder.png";
@@ -188,6 +191,12 @@ void keyPressed(){
       level1Grid.clearTileImage(oldLoc);
       player1Row++;
       //checkCollision(oldLoc, ship1);
+    }
+
+    //blaster
+    else if(keyCode == 112) {
+      GridLocation b = new GridLocation(player1Row,1);
+      level1Grid.setTileImage(b,blaster);
     }
     // else if (keyCode == 68) {
     //   GridLocation oldLoc = new GridLocation(player1Row, player1Col);
@@ -352,7 +361,16 @@ public void populateSprites(){
     level1Grid.setTileImage(ship1Loc,ship1);
 
   //Loop through all the rows in the last column
-  
+  for (int r = 0; r < level1Grid.getNumRows(); r++) {
+
+    GridLocation ship1Loc = new GridLocation(r,level1Grid.getNumCols()-1) ;
+
+
+    if(Math.random() < 0.2) {
+      level1Grid.setTileImage(ship1Loc,ship1);
+    }
+  }
+
     //Generate a random number
 
 
