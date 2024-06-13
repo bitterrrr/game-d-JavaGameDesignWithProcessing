@@ -31,6 +31,7 @@ String player1File = "images/robot_placeholder.png";
 int player1Row = 3;
 int player1Col = 0; //Testing for full movement
 int health = 3;
+int points =0;
 
 PImage blaster;
 String blasterFile = "images/blaster.png";
@@ -105,6 +106,8 @@ void setup() {
   player1.resize(level1Grid.getTileWidth(),level1Grid.getTileHeight());
   ship1 = loadImage(ship1File);
   ship1.resize(level1Grid.getTileWidth(),level1Grid.getTileHeight());
+  blaster = loadImage(blasterFile);
+  blaster.resize(level1Grid.getTileWidth(),level1Grid.getTileHeight());
   //walkingChick = new AnimatedSprite("sprites/chick_walk.png", "sprites/chick_walk.json", 0.0, 0.0, 5.0);
   //level1Grid.setTileSprite(new GridLocation (5,5), walkingChick);
 
@@ -174,18 +177,22 @@ void keyPressed(){
       level1Grid.clearTileImage(playerLoc);
 
       //store a GridLocation for UP
-      GridLocation enemyLoc = new GridLocation(ship1Row--,ship1Col);
+      GridLocation aboveLoc = new GridLocation(ship1Row-1,ship1Col);
 
       //check the tile UP to see if a ship is there
-      PImage above = level1Grid.getTileImage(enemyLoc);
-      if(ship1.equals(above)){
+      //PImage above = level1Grid.getTileImage(enemyLoc);
+
+
+      if(ship1.equals(level1Grid.getTileImage(aboveLoc))){
         health--;
       }
 
       //change the field for player1Row
       player1Row--;
-      checkCollision(playerLoc, enemyLoc);
+      checkCollision(playerLoc, aboveLoc);
     }
+
+
     else if(keyCode == 83 && player1Row != 5){
       GridLocation oldLoc = new GridLocation(player1Row, player1Col);
       level1Grid.clearTileImage(oldLoc);
@@ -195,9 +202,13 @@ void keyPressed(){
 
     //blaster
     if(keyCode == 80) {
-      blaster = loadImage(blasterFile);
+      System.out.println("Pressed P");
       GridLocation b = new GridLocation(player1Row,1);
+      System.out.println("got gridlocadtion");
+
       level1Grid.setTileImage(b,blaster);
+      System.out.println("SetTileImage happened");
+
     }
     // else if (keyCode == 68) {
     //   GridLocation oldLoc = new GridLocation(player1Row, player1Col);
@@ -358,8 +369,7 @@ public void populateSprites(){
 
   //What is the index for the last column?
       //Display the ship
-    GridLocation ship1Loc = new GridLocation(ship1Row,ship1Col);
-    level1Grid.setTileImage(ship1Loc,ship1);
+
 
   //Loop through all the rows in the last column
   for (int r = 0; r < level1Grid.getNumRows(); r++) {
@@ -388,21 +398,19 @@ for(int r = 0; r < level1Grid.getNumRows();r++) {
   for(int c = 1; c < level1Grid.getNumCols();c++){
     //int ran = (int) Math.random()*6;
     GridLocation loc = new GridLocation(r,c);
-    GridLocation leftLoc = new GridLocation((int)Math.random()*6,c-1);
+    GridLocation leftLoc = new GridLocation(r,c-1);
 
     if (ship1.equals(level1Grid.getTileImage(loc))) {
       level1Grid.clearTileImage(loc);
 
       if(player1.equals(level1Grid.getTileImage(leftLoc))){
         health--;
-
       }
-      // else if(blaster.equals(level1Grid.getTileImage(leftLoc))){
-      //   level1Grid.clearTileImage(loc)
-
-      // }
+      else if(blaster.equals(level1Grid.getTileImage(leftLoc))){
+        points++;
+      }
       else{
-      level1Grid.setTileImage(leftLoc,ship1);
+        level1Grid.setTileImage(leftLoc,ship1);
       }
 
       //ran = (int) Math.random()*6;
