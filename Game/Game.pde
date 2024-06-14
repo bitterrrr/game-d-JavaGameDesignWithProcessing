@@ -156,9 +156,6 @@ void draw() {
 
   //check for end of game
   if(isGameOver()){
-    if (points > 15) {
-
-    }
     endGame();
   }
 
@@ -221,6 +218,17 @@ void keyPressed(){
       System.out.println("SetTileImage happened");
 
     }
+
+    //Reset game
+    // if(keyCode == 10) {
+    //   System.out.println("Pressed Enter");
+    //   points = 0;
+    //   health = 3;
+    //   System.out.println("Health: " + health + "\tpoints: " + points);
+    //   currentScreen = level1Grid;
+    //   System.out.println("level1Grid Set");
+    //   updateScreen();
+    // }
     // else if (keyCode == 68) {
     //   GridLocation oldLoc = new GridLocation(player1Row, player1Col);
     //   level1Grid.clearTileImage(oldLoc);
@@ -380,15 +388,18 @@ public void populateSprites(){
 
 
   //Loop through all the rows in the last column
-  for (int r = 0; r < level1Grid.getNumRows(); r++) {
+  if(points <=15 && health >= 0) {
+    for (int r = 0; r < level1Grid.getNumRows(); r++) {
 
-    GridLocation shipPlace = new GridLocation(r,level1Grid.getNumCols()-1) ;
+      GridLocation shipPlace = new GridLocation(r,level1Grid.getNumCols()-1) ;
 
 
-    if(Math.random() < 0.2) {
-      level1Grid.setTileImage(shipPlace,ship1);
+      if(Math.random() < 0.2) {
+        level1Grid.setTileImage(shipPlace,ship1);
+      }
     }
   }
+  
 
     //Generate a random number
 
@@ -499,10 +510,10 @@ public boolean checkCollision(GridLocation loc, GridLocation nextLoc){
 
 //method to indicate when the main game is over
 public boolean isGameOver(){
-  if (health >= 0) {
-    return false;
-  } else if (points > 15) {
+  if (points > 15) {
     return true;
+  } else if (health >= 0) {
+    return false;
   }
   return true;
    //by default, the game is never over
