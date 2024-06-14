@@ -142,6 +142,7 @@ void draw() {
     //sprite handling
     populateSprites();
     moveSprites();
+    moveBlasters();
   }
   msElapsed +=100;
   currentScreen.pause(100);
@@ -189,7 +190,7 @@ void keyPressed(){
 
       //change the field for player1Row
       player1Row--;
-      checkCollision(playerLoc, aboveLoc);
+      //checkCollision(playerLoc, aboveLoc);
     }
 
 
@@ -292,7 +293,7 @@ public void updateTitleBar(){
 
   if(!isGameOver()) {
     //set the title each loop
-    surface.setTitle(titleText + "    " + extraText + " " + health);
+    surface.setTitle(titleText + "    " + extraText + " " + points);
 
     //adjust the extra text as desired
   
@@ -417,30 +418,40 @@ for(int r = 0; r < level1Grid.getNumRows();r++) {
     }
   }
 }
-
-      //Store the current GridLocation
-
-      //Store the next GridLocation
-
-      //Check if the current tile has an image that is not player1      
+}
 
 
-        //Get image/sprite from current location
-          
 
-        //CASE 1: Collision with player1
+//Method to move around the enemies/sprites on the screen
+public void moveBlasters(){
+
+  //Loop through all of the rows & cols in the grid
+  for(int r = 0; r < level1Grid.getNumRows();r++) {
+    for(int c = 1; c < level1Grid.getNumCols();c++){
+      //int ran = (int) Math.random()*6;
+      GridLocation loc = new GridLocation(r,c);
+      GridLocation rightLoc = new GridLocation(r,c+1);
+
+      if (blaster.equals(level1Grid.getTileImage(loc))) {
+        level1Grid.clearTileImage(loc);
+        
 
 
-        //CASE 2: Move enemy over to new location
+        //if something there --> obliterate ship and get points
+        if( ship1.equals(level1Grid.getTileImage(rightLoc)) ) {
+          level1Grid.clearTileImage(rightLoc);
+          points++;
+        } 
 
+        //move to right if nothing is there
+        else {
+          level1Grid.setTileImage(rightLoc,blaster);
+        }
 
-        //Erase image/sprite from old location
-
-        //System.out.println(loc + " " + grid.hasTileImage(loc));
-
-          
-      //CASE 3: Enemy leaves screen at first column
-
+        //ran = (int) Math.random()*6;
+      }
+    }
+  }
 }
 
 //Method to check if there is a collision between Sprites on the Screen
@@ -474,6 +485,8 @@ public boolean checkCollision(GridLocation loc, GridLocation nextLoc){
 
   return false; //<--default return
 }
+
+
 
 //method to indicate when the main game is over
 public boolean isGameOver(){
