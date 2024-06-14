@@ -2,10 +2,8 @@
  * Inspired by Daniel Shiffman's p5js Animated Sprite tutorial
  * Note: Picture coordinate origina at top, left corner
  * Author: Joel Bianchi
- * Last Edit: 5/28/2024
- * Added Sprite constructor with scaling
- * Updated for null images (ie. Buttons)
- * getX() & getY() center Sprites
+ * Last Edit: 6/10/24
+ * Added getName() method for easier tracking of categories of sprites
  */
 
 public class Sprite {
@@ -13,6 +11,7 @@ public class Sprite {
   //------------------ SPRITE FIELDS --------------------//
   PImage spriteImg;
   private String spriteImgFile;
+  private String name;
   private float centerX;
   private float centerY;
   private float speedX;
@@ -60,6 +59,7 @@ public class Sprite {
   }
 
 
+
   //------------------ SPRITE MOTION METHODS --------------------//
 
   // method to display the Sprite image on the screen
@@ -96,7 +96,7 @@ public class Sprite {
 
 
 
-  //------------------ SPRITE ACCESSOR METHODS --------------------//
+  //------------------ SPRITE COORDINATES ACCESSOR & MUTATOR METHODS --------------------//
 
   public float getW(){
     return w;
@@ -116,15 +116,6 @@ public class Sprite {
   public float getY(){
     return getCenterY();
   }
-  public PImage getImg(){
-    return spriteImg;
-  }
-  public boolean getIsAnimated(){
-    return isAnimated;
-  }
-  
-  
-  //------------------ SPRITE MUTATOR METHODS --------------------//
 
   public void setW(float w){
     this.w = w;
@@ -138,14 +129,8 @@ public class Sprite {
   public void setCenterY(float centerY){
     this.centerY=centerY;
   }
-  public void setImg(PImage img){
-    this.spriteImg = img;
-  }
-  public void setIsAnimated(boolean a){
-    isAnimated = a;
-  }
-
-
+  
+  
   /*------------------ SPRITE BOUNDARY METHODS  --------------------
    * -- Used from Long Bao Nguyen
    *  -- https://longbaonguyen.github.io/courses/platformer/platformer.html
@@ -175,15 +160,45 @@ public class Sprite {
     return centerY + h/2;
   }
 
+  //------------------ SPRITE IMAGE & ANIMATION METHODS --------------------//
+
+  //Accessor method to the Sprite object
+  public PImage getImage(){
+    return this.spriteImg;
+  }
+  //Mutator method to the Sprite object
+  public void setImage(PImage img){
+    this.spriteImg = img;
+  }
+
+  //Accessor method to check if Sprite object is animated
+  public boolean getIsAnimated(){
+    return isAnimated;
+  }
+  //Mutator method to change if Sprite object is animated
+  public void setIsAnimated(boolean a){
+    isAnimated = a;
+  }
+
   //Accessor method to the image path of the Sprite
   public String getImagePath(){
     return this.spriteImgFile;
   }
-  
-  //Accessor method to the image path of the Sprite
-  public PImage getImage(){
-    return this.spriteImg;
+
+  //Method to be used to compare 2 sprites by a name, will check the image file name if no name specified
+  public String getName(){
+    if(name == null){
+      return getImagePath();
+    } else {
+      return name;
+    }
   }
+
+  //Sets the Sprites name to be used for comparisons
+  public void setName(String name){
+    this.name = name;
+  }
+
 
   //Method to copy a Sprite to a specific location
   public Sprite copyTo(float x, float y){
@@ -228,9 +243,9 @@ public class Sprite {
     return copyTo(this.centerX, this.centerY);
   }
 
-  //Method to check if 2 Sprites are the same (based on PImage)
+  //Method to check if 2 Sprites are the same (based on name or image)
   public boolean equals(Sprite otherSprite){
-    if(this.spriteImgFile != null && otherSprite != null && this.spriteImgFile.equals(otherSprite.getImagePath())){
+    if(this.spriteImgFile != null && otherSprite != null && this.getName().equals(otherSprite.getName())){
       return true;
     }
     return false;

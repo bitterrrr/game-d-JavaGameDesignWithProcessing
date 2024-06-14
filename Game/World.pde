@@ -1,9 +1,13 @@
 /* World Class - Used to describe the screen of a pixel-based game
  * Subclass of a Screen, includes an ArrayList of Sprite objects
- * Authors: Joel Bianchi, Nathan Santos, Clive Sherwood
- * Last Edit: 5/29/2024
- * Added Constructor for Moveable Backgrounds
- * Adjusted variables for general Sprites
+ * Authors: Joel Bianchi, Nathan Santos, Clive Sherwood, Vanessa Balbuena
+ * Last Edit: 6/14/2024
+ * methods to make looping through the Sprites easier:
+ *   int getNumSprites()
+ *   Sprite getSprite(int index)
+ *   Sprite removeSprite(int index)
+ *   void removeSprite(Sprite sprite)
+ * Method to clear all sprites for a restart
  */
 
 import java.util.ArrayList;
@@ -70,11 +74,33 @@ public class World extends Screen{
     }
     sprites.add(sprite.copyTo(x,y));
   }
+  
+    //method to remove return the number of sprites in a World
+  public int getNumSprites(){
+    return sprites.size();
+  }
+
+  //method to get a specific Sprite based on its index
+  public Sprite getSprite(int index){
+    return sprites.get(index);
+  }
 
   //method to remove a sprite from the world
   public void removeSprite(Sprite sprite) {
     if (sprites.contains(sprite)) {
       sprites.remove(sprite);
+    }
+  }
+
+  //method to remove a sprite from the world based on its index in the ArrayList
+  public Sprite removeSprite(int index) {
+      return sprites.remove(index);
+  }
+
+  //Remove all current Sprites from World (useful for restarting a level) -Vanessa Balbuena 2024
+  public void clearAllSprites(){
+    for(int i = 0; i < sprites.size(); i++){
+      removeSprite(i);
     }
   }
 
@@ -107,6 +133,11 @@ public class World extends Screen{
   public void printSprites(){
     printWorldSprites();
   }
+
+
+   
+   
+
 
 
   //------------------ WORLD MUTATOR METHODS --------------------//

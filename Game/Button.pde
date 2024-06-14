@@ -1,7 +1,8 @@
 /* Button Class - Used to add a button into a Game
  * Author: Joel Bianchi
- * Last Edit: 5/29/2024
- * Fixed centering of button hover
+ * Last Edit: 6/11/2024
+ * Ability to turn highlights on/off
+ * Ability to adjust font size
  */
 
 
@@ -9,14 +10,17 @@ public class Button {
 
     //------------------ BUTTON FIELDS --------------------//
     private String caption;
+    private float fontFactor;
     private String shape;
     private float shapeX, shapeY;     //coordinates of CENTER of button shape
     private float shapeW, shapeH;     //size of shape in pixels
     private color baseColor;
-    private color highlightColor;
+    private color hoverColor;
     private color clickColor;
     private color currentColor;
-    private boolean visible;
+    private boolean isVisible;
+    private boolean doesHoverHighlight;
+    private boolean doesClickHighlight;
 
 
     //------------------ BUTTON CONSTRUCTORS --------------------//
@@ -31,11 +35,16 @@ public class Button {
         this.shapeY = y + (shapeH/2);
         
         this.caption = txt;
-        this.baseColor = color(255,255, 0);   //yellow
-        this.highlightColor = color(0,0,255); //blue
+        this.fontFactor = 0.9;
+        this.baseColor = color(255, 255, 0);   //yellow
+        this.doesHoverHighlight = true;
+        this.hoverColor = color(0,0,255); //blue
+        this.doesClickHighlight = true;
         this.clickColor = color(255,0,0); //red
         this.currentColor = baseColor;
-        this.visible = true;
+        this.isVisible = true;
+
+
     }
 
 
@@ -45,14 +54,14 @@ public class Button {
     void show() {
         
         //Sets outline stroke around button (3 pixels, BLACK)
-        strokeWeight(3);
+        strokeWeight(2);
         stroke(0);
 
         //Sets color of button based on Mouse hover
-        if (isClicked()) {
+        if (doesClickHighlight && isClicked()) {
             currentColor = clickColor;
-        } else if (isMouseOverButton()){
-            currentColor = highlightColor;
+        } else if (doesHoverHighlight && isMouseOverButton()){
+            currentColor = hoverColor;
         } else {
             currentColor = baseColor;
         }
@@ -60,28 +69,33 @@ public class Button {
         //Set color inside Button
         fill(currentColor);
 
-        //Draws particular Button Shape
-        if(shape.equals("circle")){
-            ellipseMode(CENTER);
-            ellipse(shapeX, shapeY, shapeW, shapeH);
-        //     System.out.println("circle shape");
-        } else if(shape.equals("rect")){
-            rectMode(CENTER);
-            rect(shapeX, shapeY, shapeW, shapeH);
-            // System.out.println("rect shape");
-        } else {
-            System.out.println("Wrong shape String.  Type \"rect\" or \"circle\"");
-            return;
-        }
+        //Only show the button if visible
+        if(isVisible){
 
-        //Set Text inside Button
-        fill(0); //set font color to black
-        float fontSize = shapeH/2 * 0.33;
-        textSize(fontSize);
-        float tw = textWidth(caption);
-        float tx = shapeX - (tw/2);
-        float ty = shapeY + (fontSize / 2);
-        text(caption, tx, ty);
+            //Draws particular Button Shape
+            if(shape.equals("circle")){
+                ellipseMode(CENTER);
+                ellipse(shapeX, shapeY, shapeW, shapeH);
+            //     System.out.println("circle shape");
+            } else if(shape.equals("rect")){
+                rectMode(CENTER);
+                rect(shapeX, shapeY, shapeW, shapeH);
+                // System.out.println("rect shape");
+            } else {
+                System.out.println("Wrong shape String.  Type \"rect\" or \"circle\"");
+                return;
+            }
+
+            //Set Text inside Button
+            fill(0); //set font color to black
+            float fontSize = shapeH/2 * fontFactor;
+            textSize(fontSize);
+            float tw = textWidth(caption);
+            float tx = shapeX - (tw/2);
+            float ty = shapeY + (fontSize / 2);
+            text(caption, tx, ty);
+
+        }
     }
 
 
@@ -128,17 +142,52 @@ public class Button {
 
 //------------------ BUTTON MUTATOR METHODS --------------------//
 
+    public void setText(String caption){
+        this.caption = caption;
+    }
+    public void setFontFactor(float ff){
+        this.fontFactor = ff;
+    }
     public void setButtonColor(color c){
         this.baseColor = c;
     }
+    public void setHoverHighlight(boolean b){
+        this.doesHoverHighlight = b;
+    }
 
-    public void setHighlightColor(color c){
-        this.highlightColor = c;
+    //Method to pass in a Processing color or null
+    //ie. color(0,0,255) for blue
+    public void setHoverColor(Integer hoverColor){
+        if(hoverColor != null){
+            setHoverHighlight(true);
+            this.hoverColor = hoverColor;
+        } else {
+            setHoverHighlight(false);
+        }
     }
-    
-    public void setClickColor(color c){
-        this.clickColor = c;
+    public void setClickHighlight(boolean b){
+        this.doesClickHighlight = b;
     }
+
+    //Method to pass in a Processing color or null
+    //ie. color(0,0,255) for blue
+    public void setClickColor(Integer clickColor){
+        if(clickColor != null){
+            setClickHighlight(true);
+            this.clickColor = clickColor;
+        } else {
+            setClickHighlight(false);
+        }
+    }
+    public void setVisible(boolean b){
+        this.isVisible = b;
+    }
+
+
+    public String toString(){
+        return "Button shape " + this.shape + " with text \"" + this.caption + "\" @loc " + this.shapeX +","+this.shapeY + " w:"+this.shapeW+" h:"+this.shapeH;
+    }
+
 
 
 } //end Button class
