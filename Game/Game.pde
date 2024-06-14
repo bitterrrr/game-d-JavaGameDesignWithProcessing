@@ -9,11 +9,12 @@
 
 //VARIABLES: Title Bar
 String titleText = "Robots&Ships";
-String extraText = "Who's Turn?";
+String extraText1 = "Points: ";
+String extraText2 = " / Health: ";
 
 //VARIABLES: Whole Game
-AnimatedSprite runningHorse;
-boolean doAnimation;
+//AnimatedSprite runningHorse;
+//boolean doAnimation;
 
 //VARIABLES: Splash Screen
 Screen splashScreen;
@@ -55,8 +56,10 @@ int player2startY = 300;
 
 //VARIABLES: EndScreen
 World endScreen;
-PImage endBg;
-String endBgFile = "images/youwin.png";
+PImage endBgWin;
+//PImage endBgLose;
+String endBgFileWin = "images/youwin.png";
+//String endBgFileLose = "images/youlose.png";
 
 
 //VARIABLES: Tracking the current Screen being displayed
@@ -86,8 +89,10 @@ void setup() {
   level1Bg.resize(width, height);
   level2Bg = loadImage(level2BgFile);
   level2Bg.resize(width, height);
-  endBg = loadImage(endBgFile);
-  endBg.resize(width, height);  
+  endBgWin = loadImage(endBgFileWin);
+  endBgWin.resize(width, height);
+  // endBgLose = loadImage(endBgFileLose);
+  // endBgLose.resize(width, height);
 
   //SETUP: Screens, Worlds, Grids
   splashScreen = new Screen("splash", splashBg);
@@ -95,11 +100,11 @@ void setup() {
   //level1Grid.startPrintingGridMarks();
   level2World = new World("sky", level2BgFile, 8.0, 0, 0); //moveable World constructor --> defines center & scale (x, scale, y)???
   //level2World = new World("sky", level2Bg);   //non-moving World construtor
-  endScreen = new World("end", endBg);
+  endScreen = new World("end", endBgWin);
   currentScreen = splashScreen;
 
   //SETUP: All Game objects
-  runningHorse = new AnimatedSprite("sprites/horse_run.png", "sprites/horse_run.json", 50.0, 75.0, 10.0);
+  //runningHorse = new AnimatedSprite("sprites/horse_run.png", "sprites/horse_run.json", 50.0, 75.0, 10.0);
 
   //SETUP: Level 1
   player1 = loadImage(player1File);
@@ -116,7 +121,7 @@ void setup() {
   //SETUP: Level 2
   player2 = new Sprite(player2File, 0.25);
   //player2.moveTo(player2startX, player2startY);
-  level2World.addSpriteCopyTo(runningHorse, 100, 200);  //example Sprite added to a World at a location, with a speed
+  //level2World.addSpriteCopyTo(runningHorse, 100, 200);  //example Sprite added to a World at a location, with a speed
   level2World.printWorldSprites();
   System.out.println("Done loading Level 2 ...");
   
@@ -276,11 +281,11 @@ void mouseClicked(){
 
 
   //Toggle the animation on & off
-  doAnimation = !doAnimation;
-  System.out.println("doAnimation: " + doAnimation);
-  if(currentGrid != null){
-    currentGrid.setMark("X",currentGrid.getGridLocation());
-  }
+  //doAnimation = !doAnimation;
+  // System.out.println("doAnimation: " + doAnimation);
+  // if(currentGrid != null){
+  //   currentGrid.setMark("X",currentGrid.getGridLocation());
+  // }
 
 }
 
@@ -293,7 +298,7 @@ public void updateTitleBar(){
 
   if(!isGameOver()) {
     //set the title each loop
-    surface.setTitle(titleText + "    " + extraText + " " + points);
+    surface.setTitle(titleText + "    " + extraText1 + " " + points + extraText2 + health);
 
     //adjust the extra text as desired
   
@@ -358,9 +363,9 @@ public void updateScreen(){
   }
 
   //UPDATE: Any Screen
-  if(doAnimation){
-    runningHorse.animateHorizontal(5.0, 10.0, true);
-  }
+  // if(doAnimation){
+  //   runningHorse.animateHorizontal(5.0, 10.0, true);
+  // }
 
 
 }
@@ -427,10 +432,12 @@ public void moveBlasters(){
 
   //Loop through all of the rows & cols in the grid
   for(int r = 0; r < level1Grid.getNumRows();r++) {
-    for(int c = 1; c < level1Grid.getNumCols();c++){
+    for(int c = 1; c < level1Grid.getNumCols()-1;c++){
       //int ran = (int) Math.random()*6;
       GridLocation loc = new GridLocation(r,c);
       GridLocation rightLoc = new GridLocation(r,c+1);
+      
+      
 
       if (blaster.equals(level1Grid.getTileImage(loc))) {
         level1Grid.clearTileImage(loc);
@@ -490,19 +497,22 @@ public boolean checkCollision(GridLocation loc, GridLocation nextLoc){
 
 //method to indicate when the main game is over
 public boolean isGameOver(){
-  // if(lives == 0){
-  //   return true;
-  // }
-  return false; //by default, the game is never over
+  if (health >= 0) {
+    return false;
+  } else if (points > 15) {
+    return true;
+  }
+  return true;
+   //by default, the game is never over
 }
 
 //method to describe what happens after the game is over
 public void endGame(){
-    System.out.println("Game Over!");
 
-    //Update the title bar
+  System.out.println("Game Over!");
+  //Update the title bar
 
     //Show any end imagery
-    currentScreen = endScreen;
+  currentScreen = endScreen;
 
 }
