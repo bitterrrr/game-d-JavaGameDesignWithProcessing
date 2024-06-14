@@ -55,12 +55,13 @@ int player2startX = 50;
 int player2startY = 300;
 
 //VARIABLES: EndScreen
-World endScreen;
+World winScreen;
 PImage endBgWin;
-//PImage endBgLose;
 String endBgFileWin = "images/youwin.png";
-//String endBgFileLose = "images/youlose.png";
 
+World loseScreen;
+PImage endBgLose;
+String endBgFileLose = "images/youLose.jpg";
 
 //VARIABLES: Tracking the current Screen being displayed
 Screen currentScreen;
@@ -91,8 +92,8 @@ void setup() {
   level2Bg.resize(width, height);
   endBgWin = loadImage(endBgFileWin);
   endBgWin.resize(width, height);
-  // endBgLose = loadImage(endBgFileLose);
-  // endBgLose.resize(width, height);
+  endBgLose = loadImage(endBgFileLose);
+  endBgLose.resize(width, height);
 
   //SETUP: Screens, Worlds, Grids
   splashScreen = new Screen("splash", splashBg);
@@ -100,7 +101,8 @@ void setup() {
   //level1Grid.startPrintingGridMarks();
   level2World = new World("sky", level2BgFile, 8.0, 0, 0); //moveable World constructor --> defines center & scale (x, scale, y)???
   //level2World = new World("sky", level2Bg);   //non-moving World construtor
-  endScreen = new World("end", endBgWin);
+  winScreen = new World("win", endBgWin);
+  loseScreen = new World("lose",endBgLose);
   currentScreen = splashScreen;
 
   //SETUP: All Game objects
@@ -154,6 +156,9 @@ void draw() {
 
   //check for end of game
   if(isGameOver()){
+    if (points > 15) {
+
+    }
     endGame();
   }
 
@@ -358,9 +363,6 @@ public void updateScreen(){
   }
 
   //UPDATE: End Screen
-  if(currentScreen == endScreen){
-
-  }
 
   //UPDATE: Any Screen
   // if(doAnimation){
@@ -511,8 +513,11 @@ public void endGame(){
 
   System.out.println("Game Over!");
   //Update the title bar
-
+  if (points > 15 && health >= 0) {
+    currentScreen = winScreen;
+  } else {
+    currentScreen = loseScreen;
+  }
     //Show any end imagery
-  currentScreen = endScreen;
 
 }
