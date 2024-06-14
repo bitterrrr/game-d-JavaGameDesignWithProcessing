@@ -414,7 +414,7 @@ public void moveSprites(){
 
 //Loop through all of the rows & cols in the grid
 for(int r = 0; r < level1Grid.getNumRows();r++) {
-  for(int c = 1; c < level1Grid.getNumCols();c++){
+  for(int c = 0; c < level1Grid.getNumCols();c++){
     //int ran = (int) Math.random()*6;
     GridLocation loc = new GridLocation(r,c);
     GridLocation leftLoc = new GridLocation(r,c-1);
@@ -422,14 +422,23 @@ for(int r = 0; r < level1Grid.getNumRows();r++) {
     if (ship1.equals(level1Grid.getTileImage(loc))) {
       level1Grid.clearTileImage(loc);
 
-      if(player1.equals(level1Grid.getTileImage(leftLoc))){
-        health--;
+      //handling ships to the right of the robot
+      if(c>=1){
+    
+        if(player1.equals(level1Grid.getTileImage(leftLoc))){
+          health--;
+        }
+        else if(blaster.equals(level1Grid.getTileImage(leftLoc))){
+          points++;
+        }
+        else{
+          level1Grid.setTileImage(leftLoc,ship1);
+        }
       }
-      else if(blaster.equals(level1Grid.getTileImage(leftLoc))){
-        points++;
-      }
+      //handling ships in the first column
       else{
-        level1Grid.setTileImage(leftLoc,ship1);
+
+
       }
 
       //ran = (int) Math.random()*6;
@@ -450,19 +459,14 @@ public void moveBlasters(){
       GridLocation loc = new GridLocation(r,c);
       GridLocation rightLoc = new GridLocation(r,c+1);
       
-      
-
       if (blaster.equals(level1Grid.getTileImage(loc))) {
         level1Grid.clearTileImage(loc);
         
-
-
         //if something there --> obliterate ship and get points
         if( ship1.equals(level1Grid.getTileImage(rightLoc)) ) {
           level1Grid.clearTileImage(rightLoc);
           points++;
         } 
-
         //move to right if nothing is there
         else {
           level1Grid.setTileImage(rightLoc,blaster);
