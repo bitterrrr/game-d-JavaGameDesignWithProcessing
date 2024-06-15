@@ -32,7 +32,8 @@ String player1File = "images/robot_placeholder.png";
 int player1Row = 3;
 int player1Col = 0; //Testing for full movement
 int health = 3;
-int points =0;
+int points = 0;
+int pointMax = 25; //Total points needed to win
 
 PImage blaster;
 String blasterFile = "images/blaster.png";
@@ -388,7 +389,7 @@ public void populateSprites(){
 
 
   //Loop through all the rows in the last column
-  if(points <=15 && health >= 0) {
+  if(points <= pointMax && health >= 0) {
     for (int r = 0; r < level1Grid.getNumRows(); r++) {
 
       GridLocation shipPlace = new GridLocation(r,level1Grid.getNumCols()-1) ;
@@ -436,7 +437,8 @@ for(int r = 0; r < level1Grid.getNumRows();r++) {
         }
       }
       //handling ships in the first column
-      else{
+      if (c == 0){
+        level1Grid.clearTileImage(loc);
 
 
       }
@@ -454,7 +456,7 @@ public void moveBlasters(){
 
   //Loop through all of the rows & cols in the grid
   for(int r = 0; r < level1Grid.getNumRows();r++) {
-    for(int c = 1; c < level1Grid.getNumCols()-1;c++){
+    for(int c = level1Grid.getNumCols()-2; c >= 1 ;c--){
       //int ran = (int) Math.random()*6;
       GridLocation loc = new GridLocation(r,c);
       GridLocation rightLoc = new GridLocation(r,c+1);
@@ -514,7 +516,7 @@ public boolean checkCollision(GridLocation loc, GridLocation nextLoc){
 
 //method to indicate when the main game is over
 public boolean isGameOver(){
-  if (points > 15) {
+  if (points > pointMax) {
     return true;
   } else if (health >= 0) {
     return false;
@@ -528,7 +530,7 @@ public void endGame(){
 
   System.out.println("Game Over!");
   //Update the title bar
-  if (points > 15 && health >= 0) {
+  if (points > pointMax && health >= 0) {
     currentScreen = winScreen;
   } else {
     currentScreen = loseScreen;
